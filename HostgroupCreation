@@ -1,0 +1,20 @@
+from pyzabbix import ZabbixAPI
+
+ZABBIX_SERVER = 'http://<Zabbix_Sevrer_IP>:88'
+zapi = ZabbixAPI(ZABBIX_SERVER)
+zapi.login('<username>', '<password>')
+print("Connected to Zabbix on  " + ZABBIX_SERVER)
+
+
+# Hostgroups list
+hostgroups = ["group1", "group2", "group3"]
+
+for hostgroup in hostgroups:
+    try:
+        resp = zapi.hostgroup.create(name=hostgroup)
+    except Exception as E:
+        print(E)
+        print(hostgroup)
+    else:
+        sample = {'Hostgroup': hostgroup, 'HostgroupId': resp['groupids'][0]}
+        print(sample)
